@@ -6,7 +6,7 @@ import logging
 
 from app.config import settings
 from app.routes.news import router as news_router
-from app.services.newdata_service import newdata_service
+from app.services.serpapi_service import serpapi_service
 from app.models import ServiceInfoResponse, HealthResponse
 
 # Configure logging
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
-    description="Standalone news agent with newdata.io integration for BTP deployment",
+    description="Standalone news agent with SerpAPI integration for BTP deployment",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -83,7 +83,7 @@ async def root():
     return ServiceInfoResponse(
         service=settings.app_name,
         version=settings.app_version,
-        description="Standalone news agent with newdata.io integration",
+        description="Standalone news agent with SerpAPI integration",
         endpoints={
             "health": "/health",
             "docs": "/docs",
@@ -102,14 +102,14 @@ async def health_check():
     """
     Health check endpoint to verify service status.
     """
-    newdata_health = await newdata_service.health_check()
+    serpapi_health = await serpapi_service.health_check()
     
     return HealthResponse(
         status="ok",
         timestamp=datetime.utcnow().isoformat(),
         service=settings.app_name,
         environment=settings.env,
-        newdata_service=newdata_health
+        newdata_service=serpapi_health
     )
 
 

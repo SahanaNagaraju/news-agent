@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 from app.models import NewsQueryParams, NewsResponse
-from app.services.newdata_service import newdata_service
+from app.services.serpapi_service import serpapi_service
 
 router = APIRouter(prefix="/api", tags=["news"])
 
@@ -31,7 +31,7 @@ async def get_news(
         "limit": limit
     }
     
-    result = await newdata_service.fetch_news(params)
+    result = await serpapi_service.fetch_news(params)
     
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("error"))
@@ -58,7 +58,7 @@ async def get_headlines(
         "limit": limit
     }
     
-    result = await newdata_service.fetch_headlines(params)
+    result = await serpapi_service.fetch_headlines(params)
     
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("error"))
@@ -87,7 +87,7 @@ async def search_by_topic(
         "limit": limit
     }
     
-    result = await newdata_service.search_by_topic(topic, options)
+    result = await serpapi_service.search_by_topic(topic, options)
     
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("error"))
@@ -109,7 +109,7 @@ async def query_news(params: NewsQueryParams):
     """
     params_dict = params.model_dump()
     
-    result = await newdata_service.fetch_news(params_dict)
+    result = await serpapi_service.fetch_news(params_dict)
     
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("error"))

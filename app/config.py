@@ -14,9 +14,9 @@ class Settings(BaseSettings):
     env: str = "production"
     log_level: str = "info"
     
-    # Newsdata.io Configuration
-    newdata_api_key: str = "pub_fc8f4e30518d483c831e7caf6ecb523c"
-    newdata_api_url: str = "https://newsdata.io/api/1"
+    # SerpAPI Configuration
+    serpapi_api_key: str = "742a92b18e3dc1a4f2205c40ec85633e8f0b1dc77caefe43a2be328036666633"
+    serpapi_api_url: str = "https://serpapi.com/search.json"
     
     # CORS Configuration
     allowed_origins: str = "*"
