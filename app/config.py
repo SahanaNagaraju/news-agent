@@ -14,9 +14,9 @@ class Settings(BaseSettings):
     env: str = "production"
     log_level: str = "info"
     
-    # Newdata.io Configuration
-    newdata_api_key: Optional[str] = None
-    newdata_api_url: str = "https://api.newdata.io/v1"
+    # Newsdata.io Configuration
+    newdata_api_key: str = "pub_fc8f4e30518d483c831e7caf6ecb523c"
+    newdata_api_url: str = "https://newsdata.io/api/1"
     
     # CORS Configuration
     allowed_origins: str = "*"
@@ -34,18 +34,7 @@ class Settings(BaseSettings):
     
     def validate_config(self) -> bool:
         """Validate required configuration."""
-        errors = []
-        
-        if not self.newdata_api_key:
-            errors.append("NEWDATA_API_KEY is required")
-        
-        if errors:
-            print("Configuration validation failed:")
-            for error in errors:
-                print(f"  - {error}")
-            print("Warning: Application may not function correctly without proper configuration")
-            return False
-        
+        # API key is hardcoded, no validation needed
         return True
 
 

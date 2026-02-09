@@ -15,7 +15,6 @@ class NewdataService:
     def _get_headers(self) -> Dict[str, str]:
         """Get HTTP headers for API requests."""
         return {
-            "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         }
     
@@ -31,15 +30,15 @@ class NewdataService:
         """
         try:
             query_params = {
+                "apikey": self.api_key,
                 "q": params.get("query", ""),
                 "category": params.get("category", ""),
                 "country": params.get("country", ""),
-                "language": params.get("language", "en"),
-                "limit": params.get("limit", 10)
+                "language": params.get("language", "en")
             }
             
-            # Remove empty parameters
-            query_params = {k: v for k, v in query_params.items() if v}
+            # Remove empty parameters except apikey
+            query_params = {k: v for k, v in query_params.items() if v or k == "apikey"}
             
             async with httpx.AsyncClient(timeout=self.timeout) as client:
                 response = await client.get(
@@ -74,17 +73,17 @@ class NewdataService:
         """
         try:
             query_params = {
+                "apikey": self.api_key,
                 "category": params.get("category", ""),
-                "country": params.get("country", "us"),
-                "limit": params.get("limit", 10)
+                "country": params.get("country", "us")
             }
             
-            # Remove empty parameters
-            query_params = {k: v for k, v in query_params.items() if v}
+            # Remove empty parameters except apikey
+            query_params = {k: v for k, v in query_params.items() if v or k == "apikey"}
             
             async with httpx.AsyncClient(timeout=self.timeout) as client:
                 response = await client.get(
-                    f"{self.api_url}/headlines",
+                    f"{self.api_url}/latest",
                     params=query_params,
                     headers=self._get_headers()
                 )
